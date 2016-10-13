@@ -55,10 +55,16 @@ angular.module('ui.slider', []).value('uiSliderConfig',{}).directive('uiSlider',
                             init();
                             options[property] = parseNumber(newVal, useDecimals);
                             elm.slider('option', property, parseNumber(newVal, useDecimals));
-                            ngModel.$render();
                         }
                     });
                 });
+
+                scope.$watch(
+                  function () { return options; },
+                  function () { ngModel.$render(); },
+                  true
+                );
+
                 attrs.$observe('disabled', function(newVal) {
                     init();
                     elm.slider('option', 'disabled', !!newVal);
